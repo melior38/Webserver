@@ -24,6 +24,7 @@ class Http
 		Http	&operator=(Http const &ref);
 	private:
 		std::string							_request;
+		std::string							_response;
 		std::string 						_ctrlData[3]; //[0] = GET ; [1] = /path ; [2] = HTTP/1.1
 		std::map<std::string, std::string>	_headers;
 		std::string 						_body;
