@@ -19,16 +19,19 @@ class Http
 {
 	public:
 		Http();
-		Http(std::string const &request);
+		Http(std::string &request);
 		Http(Http const &ref);
 		Http	&operator=(Http const &ref);
+		std::string							getRequest() const;
+
 	private:
+		void								parse_input(std::string &request);
 		std::string							_request;
 		std::string							_response;
 		std::string 						_ctrlData[3]; //[0] = GET ; [1] = /path ; [2] = HTTP/1.1
 		std::map<std::string, std::string>	_headers;
 		std::string 						_body;
 
-}
+};
 
 #endif

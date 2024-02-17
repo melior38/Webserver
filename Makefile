@@ -10,8 +10,6 @@
 #                                                                              #
 # **************************************************************************** #
 
-
-
 COLOUR_GREEN=\033[0;32m
 COLOUR_RED=\033[0;31m
 COLOUR_ORANGE=\033[0;34m
@@ -23,8 +21,8 @@ NAME	= webserver
 
 RM				= rm -rf
 
-SRC				=	main.cpp							\
-					src/Http.cpp						\
+SRC				=	srcs/main.cpp							\
+					srcs/http/Http.cpp						\
 					# src/Http.cpp						\
 					# src/Http.cpp						\
 					# src/Http.cpp						\
@@ -32,7 +30,8 @@ SRC				=	main.cpp							\
 
 
 DIRS			= objs
-HEADERS			= include
+OBJS_DIRS		= objs objs/srcs objs/srcs/http
+HEADERS			= includes
 OBJS			= ${SRC:.cpp=.o}
 CFLAGS 			= -I $(HEADERS) -Werror -Wextra -Wall -std=c++98 #-fsanitize=undefined
 _OBJS			= $(addprefix $(DIRS)/, $(OBJS))
@@ -44,7 +43,7 @@ ${NAME}: ${_OBJS}
 			@echo "$(COLOUR_CYAN)Compile..."
 			c++ ${CFLAGS} $(_OBJS) -o $@
 ${DIRS}/%.o: %.cpp
-		@mkdir -p $(DIRS)
+		@mkdir -p $(OBJS_DIRS)
 		c++ $(CFLAGS) -c $< -o $@ -g3
 clean:
 			$(RM) ${_OBJS}
