@@ -36,10 +36,23 @@ Http	&Http::operator=(Http const &ref)
 	return *this;
 }
 
-void	Http::parse_input(std::string &request)
+void	Http::parse_input(void)
 {
+	int line;
+	if (this->_request.find("\n\n", ))
+	for (int i = 0; this->_request[i]; i++)
+	{
+
+	}
+}
+
+void	Http::setCtrlData()
+{
+	std::stringstream ss;
 	std::string request_line = request.substr(0, request.find("\n", 0));
-	cout << request_line << endl;
+	ss << request_line;
+	for (int i = 0; i != 3; ++i)
+		ss >> this->_ctrlData[i];
 }
 
 std::string	Http::getRequest() const

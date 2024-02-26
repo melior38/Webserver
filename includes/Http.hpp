@@ -25,7 +25,7 @@ class Http
 		std::string							getRequest() const;
 
 	private:
-		void								parse_input(std::string &request);
+		void								parse_input(void);
 		std::string							_request;
 		std::string							_response;
 		std::string 						_ctrlData[3]; //[0] = GET ; [1] = /path ; [2] = HTTP/1.1
