@@ -1,6 +1,15 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="2.0" encoding="UTF-8"?>
 
 <config>
-    <port>1024</port>
-    <server_names>test.com</server_names>
+    <worker_connections>1024</port>
+    <server_1>
+        <listen>80</listen>
+        <server_name>test.com</server_name>
+        <error_page_404>/errors/not_found.html</error_page_404>
+        <error_page_500>/errors/internal_server_error.html</error_page_500>
+        <client_max_body_size>1M</client_max_body_size>
+        <root>./data</root>
+        <autoindex>on</autoindex>
+        <upload_store>/var/www/uploads</upload_store>
+    </server_1>
 </config>
