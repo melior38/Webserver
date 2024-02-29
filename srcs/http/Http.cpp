@@ -62,7 +62,7 @@ void	Http::parse_input(void)
 void	Http::setHeader(std::string headers)
 {
 	std::string line;
-	std::istream ss;
+	std::istringstream ss(headers);
 	size_t	startValue = headers.find(':');
 	size_t	endValue = headers.find("\r\n");
     while (std::getline(ss, headers))

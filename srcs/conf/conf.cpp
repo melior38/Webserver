@@ -10,3 +10,10 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../../includes/Library.hpp"
+#include "../../includes/Conf.hpp"
+
+Conf::Conf(void) : _port(0) : _server_names("default")
+{
+}
+
