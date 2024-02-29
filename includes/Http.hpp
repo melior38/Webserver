@@ -25,6 +25,8 @@ class Http
 		std::string							getRequest() const;
 
 	private:
+		void								setCtrlData();
+		void								setHeader(std::string header);
 		void								parse_input(void);
 		std::string							_request;
 		std::string							_response;
