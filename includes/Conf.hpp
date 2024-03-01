@@ -21,7 +21,7 @@ class Config
         std::string     _root;
         bool            _autoindex;
         std::string     _upload_store;
+        std::string     check_first_sec_line(std::string line, int linenb);
+        std::string     check_other_line(std::string line, int linenb);
 };
-
-std::string  check_line(std::string line, bool firstline);
 #endif
