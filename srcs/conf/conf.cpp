@@ -76,11 +76,13 @@ std::string Config::check_first_sec_line(std::string line, int linenb)
 
 std::string Config::check_other_line(std::string line, int linenb)
 {
-    std::string line2;
+    std::string tag;
+    std::string arg;
     int size;
     int subpos = 0;
     int i = 0;
     int j = 0;
+    int k = 0;
 
     size = line.length();
 
@@ -94,9 +96,16 @@ std::string Config::check_other_line(std::string line, int linenb)
                     break;
             }
             subpos = j - (i + 1);
-            line2.replace(0, subpos, line, i + 1, subpos);
-            std::cout << line2 << std::endl;
-            j = 0;   
+            tag.replace(0, subpos, line, i + 1, subpos);
+            for (k = j + 1; k < size; k++)
+            {
+                if (line[k] == '<')
+                    break;
+            }
+            arg.replace(0, k - (j + 1), line, j + 1, k - (j + 1));
+            std::cout << arg << std::endl;
+            if (linenb == 4)
+                exit (1);
         }
     }
     return (line);
