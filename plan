@@ -1,0 +1,40 @@
+GESTION DU PROJO (NOCODE)
+
+1. UTILS: cree tout les utils des sockets (kevent etc...)
+		- set_kqueue()
+		- conf_parser() (class parser)
+		- http request
+		- http response
+		- fonction facilitante et conversion
+		- une fonction qui genere les page d'erreur du serveur
+		- une enum qui liste les state possible : badRequest/methodNotAllowed/done/keepReading
+
+2. LE SERVEUR TOURNE: le serveur doit tourner en boucle donc on va initier une boucle infinie qui va run le serveur pour définir ce qu'elle va faire
+		a. on initialise une liste d'event (un tableau) et on initialise la kqueue et set les event de chaques slot de notre tableau.
+		b. une fois la kqueue set on va attendre les évent avec la fonction kevent et stocker le nombre d'event recu pour initier la gestion de ces event
+		c. une fois la loop lancer on a 3 etapes cruciale pour le bon developpement du serveur Web.
+
+	Dans la boucle;
+
+	3. -- ETAPE 1 -- AJOUTER LE SOCKET: la premiere étape est d'accepter le socket concerner par l'event. 
+		a. donc on utilise de prime abord accept() puis fcntl() qui on pour but de set le socket en non blockant (O_NONBLOCK)
+		b. ensuite on doit set le state de connection de la socket en keep alive or not (basiquement c'est un bool)
+		c. une fois le socket set on a besoin de le rajouter dans la kqueue (pour pouvoir plus tard lire son flag en lecture ou en ecriture)
+
+	4. -- ETAPE 2 -- LECTURE DU SOCKET: 
+	Description : Dans le contexte des sockets, un événement de lecture indique qu'il y a des données arrivées sur le socket et qu'elles peuvent être lues.
+		a. on check le socket
+		b. on recupere les string reçu par le socket ensuite on va lire le contenu du socket grace a read puis on va stocker le contenu dans une map contenant les message reçu et le socketid associé (car je rappelle que les infos sont dans un fd)
+		c. si on a une erreur de lecture avec read on return une erreur 500 , Internal Serveur Error avec notre fonction d'erreur serveur
+		d. ensuite on concatene le contenue du read dans la string de notre map receive pour reconstruire la request (la lecture qu'on fait ne boucle pas on set une taille predefinie pour eviter de blocker le serveur sur la lecture d'un socket et si la lecture du socket ne se termine pas au premier tour elle continuera au second etc...)
+		e. on va ensuite verifier si la requete est complete ou pas. Si oui on parse la requete dans une fonction parse_read() dans le process_socket() (a crée). si la requete n'est pas complete on envoie la reponse keepReading qui attendra la prochaine loop pour retenter le process_socket()
+			Process_socket():
+				a. cree le client (class http) / et parse_read
+				parse_read():
+					a. la premiere etape est d'identifier la methode GET/DELETE/POST si autre = badRequest
+					b. si on a un GET/DELETE on va chercher la fin de la requete a l'aide d'un find("\r\n\r\n") car ces methodes ne contiennent pas de body si on ne le trouve pas on doit continuer de lire (return keepReading) si on trouve la fin on va verifier que la requete est bien terminer en comparant sa size totale  et le find de la end si il n'est pas == alors on sait qu'il y a de multiples requetes a gerer donc on recupere la 1er requetes et on erase son contenu du socket puis on ne delete pas le socket de la kqueue car on doit encore read dessus.
+					c. si on a un POST alors on doit verifier si on peut find("Content-Length: ") qui est enft la taille du body.
+						- si non on continue de lire 
+
+				b. on a pas de 
+				c.
