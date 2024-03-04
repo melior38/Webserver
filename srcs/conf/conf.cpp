@@ -62,7 +62,7 @@ void   Config::Check_conf_file(void)
         myfile.close();
     }
     else
-        conf_error_handle(3);
+        conf_error_handle(3, linenb);
     print_conf_map();
 }
 
@@ -76,19 +76,19 @@ std::string Config::check_first_sec_line(std::string line, int linenb)
         case 1:
             line.erase(line.end() - 1);
             if (line != "<?xml version=\"1.0\" encoding=\"UTF-8\"?>")
-                conf_error_handle(1);
+                conf_error_handle(1, linenb);
         break;
         case 2:
             if (size != 1)
-                conf_error_handle(1);
+                conf_error_handle(1, linenb);
         break;
         case 3:
             if (line != "config")
-                conf_error_handle(1);
+                conf_error_handle(1, linenb);
         break;
         case 0 :
             if (line != "</config>")
-                conf_error_handle(1);
+                conf_error_handle(1, linenb);
         break;
     }
     return (line);
@@ -112,7 +112,7 @@ std::string Config::check_other_line(std::string line, int linenb)
     for (i = 0; i < size; i++)
     {
         if (line[i] != ' ' && line[i] != '\t' && line[i] != '<')
-            conf_error_handle(1);
+            conf_error_handle(1, linenb);
         else if (line[i] == '<')
             break;
     }
@@ -147,10 +147,10 @@ std::string Config::check_other_line(std::string line, int linenb)
                     templine = line;
                     templine.erase(templine.end() - 1);
                     if (templine.c_str()[l + 1] != '\0')
-                        conf_error_handle(1);
+                        conf_error_handle(1, linenb);
                     tag2.replace(0, l - (k + 1), line, k + 1, l - (k + 1));
                     if (tag2[0] != '/')
-                        conf_error_handle(1);
+                        conf_error_handle(1, linenb);
                     if (tag2.compare(1, l - k, tag) == 0)
                     {
                         if (this->_mp[tag] == "1")
@@ -158,10 +158,10 @@ std::string Config::check_other_line(std::string line, int linenb)
                             this->_mp[tag] = arg;
                         }
                         else
-                            conf_error_handle(2);
+                            conf_error_handle(2, linenb);
                     }
                     else
-                        conf_error_handle(1);
+                        conf_error_handle(1, linenb);
                     return (line);
                 }
             }
@@ -170,16 +170,16 @@ std::string Config::check_other_line(std::string line, int linenb)
     return (line);
 }
 
-void    Config::conf_error_handle(int error)
+void    Config::conf_error_handle(int error, int linenb)
 {
     switch(error)
     {
         case 1:
-            std::cout << "Error in config!" << std::endl;
+            std::cout << "Error in config at line " << linenb << "!" << std::endl;
             exit (1);
         break;
         case 2:
-            std::cout << "Error in tags! Please verify the names and check of any doubles!" << std::endl;
+            std::cout << "Error in tags! Please verify the names and check for any doubles!" << std::endl;
             exit (1);
         break;
         case 3:
