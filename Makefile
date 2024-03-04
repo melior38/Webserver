@@ -34,7 +34,7 @@ DIRS			= objs
 OBJS_DIRS		= objs objs/srcs objs/srcs/http objs/srcs/conf
 HEADERS			= includes
 OBJS			= ${SRC:.cpp=.o}
-CFLAGS 			= -I $(HEADERS) -Werror -Wextra -Wall -std=c++98 #-fsanitize=undefined
+CFLAGS 			= -I $(HEADERS) -Werror -Wextra -Wall -std=c++98 #-fsanitize=address
 _OBJS			= $(addprefix $(DIRS)/, $(OBJS))
 
 

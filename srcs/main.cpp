@@ -14,13 +14,19 @@
 #include "Http.hpp"
 #include "Conf.hpp"
 
-using std::cout;
-using std::endl;
-
-int main(void)
+int main(int ac, char *av[])
 {
-	Config test;
+	Config	test;
 
-	test.Check_conf_file();
-	return (1);
+	if (ac == 2)
+	{
+		test.set_name(av[1]);
+		test.Check_conf_file();
+	}
+	else
+	{
+		std::cout << "Error: Too little or too many args!" << std::endl;
+		return (1);
+	}
+	return (0);
 }

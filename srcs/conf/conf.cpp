@@ -17,7 +17,7 @@
 
 Config::Config(void)
 {
-    this->_conf_file_name = "srcs/conf/config.xml";
+    this->_conf_file_name = "0";
     this->_mp["listen"] = "1";
     this->_mp["server_name"] = "1";
     this->_mp["error_page_404"] = "1";
@@ -27,6 +27,19 @@ Config::Config(void)
     this->_mp["autoindex"] = "1";
     this->_mp["upload_store"] = "1";
     this->_mp["worker_connections"] = "1";
+}
+
+void    Config::set_name(std::string name)
+{
+    this->_conf_file_name = name;
+}
+
+Config::~Config(void)
+{
+    for (std::map<std::string, std::string>::iterator it = _mp.begin(); it != _mp.end();)
+    {
+        _mp.erase(it++);
+    }
 }
 
 void   Config::Check_conf_file(void)
@@ -86,6 +99,7 @@ std::string Config::check_other_line(std::string line, int linenb)
     std::string tag;
     std::string tag2;
     std::string arg;
+    std::string templine = "test";
     int size;
     int subpos = 0;
     int i = 0;
@@ -94,6 +108,14 @@ std::string Config::check_other_line(std::string line, int linenb)
     int l = 0;
 
     size = line.length();
+
+    for (i = 0; i < size; i++)
+    {
+        if (line[i] != ' ' && line[i] != '\t' && line[i] != '<')
+            conf_error_handle(1);
+        else if (line[i] == '<')
+            break;
+    }
 
     for (i = 0; i < size; i++)
     {
@@ -122,7 +144,13 @@ std::string Config::check_other_line(std::string line, int linenb)
                 }
                 if (tag != "server_1" && tag != "/server_1" && tag != "/config")
                 {
+                    templine = line;
+                    templine.erase(templine.end() - 1);
+                    if (templine.c_str()[l + 1] != '\0')
+                        conf_error_handle(1);
                     tag2.replace(0, l - (k + 1), line, k + 1, l - (k + 1));
+                    if (tag2[0] != '/')
+                        conf_error_handle(1);
                     if (tag2.compare(1, l - k, tag) == 0)
                     {
                         if (this->_mp[tag] == "1")
@@ -165,7 +193,7 @@ void    Config::print_conf_map(void)
 {
     std::map<std::string, std::string>::iterator it = this->_mp.begin();
 
-     while (it != this->_mp.end()) 
+     while (it != this->_mp.end())
      {
         std::cout << "Key: " << it->first << ", Value: " << it->second << std::endl;
         ++it;

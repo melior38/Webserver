@@ -9,7 +9,9 @@ class Config
         Config();
         Config(Config const &ref);
         Config	&operator=(Config const &ref);
+        ~Config();
         void    Check_conf_file(void);
+        void    set_name(std::string name);
 
     private:
         std::map<std::string, std::string> _mp;
