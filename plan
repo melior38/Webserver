@@ -34,7 +34,10 @@ GESTION DU PROJO (NOCODE)
 					a. la premiere etape est d'identifier la methode GET/DELETE/POST si autre = badRequest
 					b. si on a un GET/DELETE on va chercher la fin de la requete a l'aide d'un find("\r\n\r\n") car ces methodes ne contiennent pas de body si on ne le trouve pas on doit continuer de lire (return keepReading) si on trouve la fin on va verifier que la requete est bien terminer en comparant sa size totale  et le find de la end si il n'est pas == alors on sait qu'il y a de multiples requetes a gerer donc on recupere la 1er requetes et on erase son contenu du socket puis on ne delete pas le socket de la kqueue car on doit encore read dessus.
 					c. si on a un POST alors on doit verifier si on peut find("Content-Length: ") qui est enft la taille du body.
-						- si non on continue de lire 
-
-				b. on a pas de 
+						- si non on continue de lire et on verifie quand meme si on a des requetes multiples
+						- si on a un Content-Length alors on va verifier si on trouve la fin du header, si oui on verifie si apres avoir lu de la taille du content-length on est bien a la fin de la requete
+						- si non alors on keep reading
+						- si oui alors on regarde si y a une 2emes requetes
+					d. apres tout ces checks on renvoie les codes erreur/success/keepReading
+				b. si le code d'error de parse_read est egale a done alors on va check si notre requetes est conforme au .conf (process_request)
 				c.

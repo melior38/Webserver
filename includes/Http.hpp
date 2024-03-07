@@ -23,6 +23,10 @@ class Http
 		Http(Http const &ref);
 		Http	&operator=(Http const &ref);
 		std::string							getRequest() const;
+		std::string							*getCtrlData();
+		std::string							getBody() const;
+		std::map<std::string, std::string>	getHeaders() const;
+
 
 	private:
 		void								setCtrlData();

@@ -42,9 +42,11 @@ all: ${NAME}
 ${NAME}: ${_OBJS}
 			@echo "$(COLOUR_CYAN)Compile..."
 			c++ ${CFLAGS} $(_OBJS) -o $@
+			@echo "$(COLOUR_YELLOW)"
 ${DIRS}/%.o: %.cpp
 		@mkdir -p $(OBJS_DIRS)
 		c++ $(CFLAGS) -c $< -o $@ -g3
+
 clean:
 			$(RM) ${_OBJS}
 			$(RM) objs
@@ -52,5 +54,7 @@ clean:
 fclean:		clean
 			$(RM) $(NAME) *.a
 			$(RM) objs
+
+
 
 re:			fclean all
