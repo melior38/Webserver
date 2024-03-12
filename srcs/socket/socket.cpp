@@ -15,7 +15,7 @@ Socket::Socket(const Socket &ref)
 
 }
 
-Socket::Socket	&operator=(const Socket &ref)
+Socket	&Socket::operator=(const Socket &ref)
 {
 
 }
@@ -25,67 +25,67 @@ Socket::Socket(/*Config config,*/ std::vector<int> port)
 	(void) port;
 }
 
-void						Socket::addSocket(int index)
+void	Socket::addSocket(int index)
 {
 
 }
 
-std::vector<int>			Socket::getSocket() const
+std::vector<int>	Socket::getSocket() const
 {
 
 }
 
-int							Socket::getKqueue() const
+int	Socket::getKqueue() const
 {
 
 }
 
 std::map<int, std::string>	Socket::getRcv() const
 {
-
+	return this->_rcv;
 }
 
 std::map<int, std::string>  Socket::getSnd() const
 {
-
+	return this->_snd;
 }
 
-Parser						Socket::getConfigHead() const
+Parser	Socket::getConfig() const
+{
+	return this->_config;
+}
+
+void	addSocket(int index)
 {
 
 }
 
-void						addSocket(int index)
+void	readSocket(struct kevent &socket)
 {
 
 }
 
-void						readSocket(struct kevent &socket)
+void	writeSocket(struct kevent &socket)
 {
 
 }
 
-void						writeSocket(struct kevent &socket)
-{
-
-}
-
-int							parseSocket(struct kevent &socket)
+int	parseSocket(struct kevent &socket)
 {
 
 }
  // renvoie un code parseCase 
-int							processSocket()
+int	processSocket()
 {
 
 }
 
-void						setKqueue()
+void	setKqueue()
 {
 
 }
 
-int							isSocket(uintptr_t socket) const
+int	isSocket(uintptr_t socket) const
 {
 
 }

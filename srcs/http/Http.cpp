@@ -54,7 +54,6 @@ void	Http::parse_input(void)
 
 void	Http::setHeader(std::string headers)
 {
-	// cout << headers << endl;
 	size_t	startValue = headers.find(':');
 	size_t	endValue;
 	while ((endValue = headers.find("\r\n")) != std::string::npos)

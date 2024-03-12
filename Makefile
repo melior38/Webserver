@@ -23,6 +23,7 @@ RM				= rm -rf
 
 SRC				=	srcs/main.cpp							\
 					srcs/http/Http.cpp						\
+					srcs/conf/conf.cpp						\
 					# src/Http.cpp						\
 					# src/Http.cpp						\
 					# src/Http.cpp						\
@@ -30,7 +31,7 @@ SRC				=	srcs/main.cpp							\
 
 
 DIRS			= objs
-OBJS_DIRS		= objs objs/srcs objs/srcs/http
+OBJS_DIRS		= objs objs/srcs objs/srcs/http objs/srcs/conf
 HEADERS			= includes
 OBJS			= ${SRC:.cpp=.o}
 CFLAGS 			= -I $(HEADERS) -Werror -Wextra -Wall -std=c++98 #-fsanitize=undefined

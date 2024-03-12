@@ -10,6 +10,8 @@ enum parseCase {
 	keepreading = 3,	
 };
 
+class Config;
+
 class Socket
 {
 	public:
@@ -26,7 +28,7 @@ class Socket
 		int							getKqueue() const;
 		std::map<int, std::string>	getRcv() const;
 		std::map<int, std::string>  getSnd() const;
-		Parser						getConfigHead() const;
+		Parser						getConfig() const;
 		///////////////////////////////////////////////////////////////////////////////////////////////
 		
 		///////////////								RUN									///////////////
