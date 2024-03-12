@@ -40,4 +40,4 @@ GESTION DU PROJO (NOCODE)
 						- si oui alors on regarde si y a une 2emes requetes
 					d. apres tout ces checks on renvoie les codes erreur/success/keepReading
 				b. si le code d'error de parse_read est egale a done alors on va check si notre requetes est conforme au .conf (process_request)
-				c.
+				...(a completer)
