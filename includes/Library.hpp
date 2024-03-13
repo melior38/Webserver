@@ -28,4 +28,10 @@
 #include <ctime>
 #include <dirent.h>
 
+#include "Socket.hpp"
+#include "Http.hpp"
+#include "Conf.hpp"
+#include "Error.hpp"
+
+
 #endif

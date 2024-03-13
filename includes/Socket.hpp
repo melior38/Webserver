@@ -29,6 +29,8 @@ class Socket
 		std::map<int, std::string>	getRcv() const;
 		std::map<int, std::string>  getSnd() const;
 		Parser						getConfig() const;
+		struct sockaddr_in			getHint() const;
+		
 		///////////////////////////////////////////////////////////////////////////////////////////////
 		
 		///////////////								RUN									///////////////
@@ -51,6 +53,7 @@ class Socket
 		std::map<uintptr_t, bool>	_connection; // la liste de state de connexion
 		Config						_config;
 		std::vector<int>			_socket;
+		struct sockaddr_in			_hint;
 };
 
 #endif
