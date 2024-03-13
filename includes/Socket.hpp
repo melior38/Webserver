@@ -28,7 +28,7 @@ class Socket
 		int							getKqueue() const;
 		std::map<int, std::string>	getRcv() const;
 		std::map<int, std::string>  getSnd() const;
-		Parser						getConfig() const;
+		Config						*getConfig() const;
 		struct sockaddr_in			getHint() const;
 		
 		///////////////////////////////////////////////////////////////////////////////////////////////
@@ -51,9 +51,9 @@ class Socket
 		std::map<int, std::string>	_rcv; // la liste de requetes reçu  
 		std::map<int, std::string>	_snd; // la liste de requetes (reponse) envoyer
 		std::map<uintptr_t, bool>	_connection; // la liste de state de connexion
-		Config						_config;
-		std::vector<int>			_socket;
 		struct sockaddr_in			_hint;
+		Config						*_config;
+		std::vector<int>			_socket;
 };
 
 #endif

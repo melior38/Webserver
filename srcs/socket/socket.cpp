@@ -1,14 +1,14 @@
 #include "Socket.hpp"
 
-Socket::Socket()
+Socket::Socket() : _kq(-1), _hint((struct sockaddr_in){}), _config(NULL)
 {
 	this->_socket.push_back(socket(AF_INET, SOCK_STREAM, 0));
     if (this->_socket.at(0) < 0)
         throw(Error::SocketException());
-    this->_socket.at(0).sin_family = AF_INET;
-    this->_socket.at(0).sin_addr.s_addr = INADDR_ANYL;
-    this->_socket.at(0).sin_port = htons(8080);
-    if (bind(this->_socket.at(0), reinterpret_cast<struct sockaddr *> (&this->_hint), sizeof(this->_socket.at(0))) < 0)
+    this->_hint.sin_family = AF_INET;
+    this->_hint.sin_addr.s_addr = INADDR_ANY;
+    this->_hint.sin_port = htons(8080);
+    if (bind(this->_socket.at(0), reinterpret_cast<struct sockaddr *> (&this->_hint), sizeof(this->_hint)) < 0)
         throw(Error::BindException());
     if (listen(this->_socket.at(0), 1024))
         throw(Error::ListenException());
@@ -28,7 +28,7 @@ Socket::Socket(const Socket &ref)
 
 Socket	&Socket::operator=(const Socket &ref)
 {
-	if (this != &instance)
+	if (this != &ref)
     {
         this->_socket = ref.getSocket();
         this->_kq = ref.getKqueue();
@@ -70,7 +70,7 @@ std::map<int, std::string>  Socket::getSnd() const
 	return this->_snd;
 }
 
-Parser	Socket::getConfig() const
+Config	*Socket::getConfig() const
 {
 	return this->_config;
 }
@@ -85,32 +85,34 @@ void	addSocket(int index)
 	(void) index;
 }
 
-void	readSocket(struct kevent &socket)
+void	Socket::readSocket(struct kevent &socket)
 {
     (void) socket;
 }
 
-void	writeSocket(struct kevent &socket)
+void	Socket::writeSocket(struct kevent &socket)
 {
     (void) socket;
 }
 
-int	parseSocket(struct kevent &socket)
-{
-    (void) socket
-}
-
-int	processSocket()
-{
-
-}
-
-void	setKqueue()
-{
-
-}
-
-int	isSocket(uintptr_t socket) const
+int	Socket::parseSocket(struct kevent &socket)
 {
     (void) socket;
+    return 0;
+}
+
+int	Socket::processSocket()
+{
+    return 0;
+}
+
+void	Socket::setKqueue()
+{
+
+}
+
+int	Socket::isSocket(uintptr_t socket) const
+{
+    (void) socket;
+    return 0;
 }

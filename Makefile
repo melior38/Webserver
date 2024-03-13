@@ -1,14 +1,3 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: marvin <marvin@student.42.fr>              +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2024/01/10 13:24:39 by marvin            #+#    #+#              #
-#    Updated: 2024/01/10 13:24:39 by marvin           ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
 
 COLOUR_GREEN=\033[0;32m
 COLOUR_RED=\033[0;31m
@@ -24,14 +13,14 @@ RM				= rm -rf
 SRC				=	srcs/main.cpp							\
 					srcs/http/Http.cpp						\
 					srcs/conf/conf.cpp						\
-					# src/Http.cpp						\
+					srcs/socket/Socket.cpp					\
 					# src/Http.cpp						\
 					# src/Http.cpp						\
 					# src/Http.cpp						\
 
 
 DIRS			= objs
-OBJS_DIRS		= objs objs/srcs objs/srcs/http objs/srcs/conf
+OBJS_DIRS		= objs objs/srcs objs/srcs/http objs/srcs/conf objs/srcs/socket
 HEADERS			= includes
 OBJS			= ${SRC:.cpp=.o}
 CFLAGS 			= -I $(HEADERS) -Werror -Wextra -Wall -std=c++98 #-fsanitize=undefined

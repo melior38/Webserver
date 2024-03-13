@@ -8,38 +8,49 @@ class Error
 {
 	public:
 		class SocketException : public std::exception {
-			virtual const char	*what() const throw {return "SocketException: socket failed"};
-		}
+			public:
+				virtual const char	*what() const throw() {return "SocketException: socket failed";}
+		};
 		class ListenException : public std::exception {
-			virtual const char	*what() const throw {return "ListenException: listen failed"};
-		}
+			public:
+				virtual const char	*what() const throw() {return "ListenException: listen failed";}
+		};
 		class AcceptException : public std::exception {
-			virtual const char	*what() const throw {return "AcceptException: accept failed"};
-		}
+			public:
+				virtual const char	*what() const throw() {return "AcceptException: accept failed";}
+		};
 		class FcntlException : public std::exception {
-			virtual const char	*what() const throw {return "SocketException: fcntl failed"};
-		}	
+			public:
+				virtual const char	*what() const throw() {return "SocketException: fcntl failed";}
+		};	
 		class BindException : public std::exception {
-			virtual const char	*what() const throw {return "BindException: bind failed"};
-		}
+			public:
+				virtual const char	*what() const throw() {return "BindException: bind failed";}
+		};
 		class KeventException : public std::exception {
-			virtual const char	*what() const throw {return "KeventException: kevent failed"};
-		}
+			public:
+				virtual const char	*what() const throw() {return "KeventException: kevent failed";}
+		};
 		class GetSockNameException : public std::exception {
-			virtual const char	*what() const throw {return "GetSockNameException: getSockName failed"};
-		}
+			public:
+				virtual const char	*what() const throw() {return "GetSockNameException: getSockName failed";}
+		};
 		class GetNameInfoException : public std::exception {
-			virtual const char	*what() const throw {return "GetNameInfoException: getNameInfo failed"};
-		}
+			public:
+				virtual const char	*what() const throw() {return "GetNameInfoException: getNameInfo failed";}
+		};
 		class AccessException : public std::exception {
-			virtual const char	*what() const throw {return "AccessException: access failed"};
-		}
+			public:
+				virtual const char	*what() const throw() {return "AccessException: access failed";}
+		};
 		class PipeException : public std::exception {
-			virtual const char	*what() const throw {return "PipeException: pipe failed"};
-		}
+			public:
+				virtual const char	*what() const throw() {return "PipeException: pipe failed";}
+		};
 		class ForkException : public std::exception {
-			virtual const char	*what() const throw {return "ForkException: fork failed"};
-		}
+			public:
+				virtual const char	*what() const throw() {return "ForkException: fork failed";}
+		};
 };
 
 
