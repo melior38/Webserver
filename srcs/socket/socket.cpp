@@ -56,7 +56,7 @@ Socket::Socket(/*Config config,*/ std::vector<int> port)
 		this->_hint.sin_port = htons(port.at(i));
 		if (bind(this->_socket.at(i), reinterpret_cast <struct sockaddr *> (&this->_hint),sizeof(this->_hint)) < 0)
 			throw(Error::BindException());
-		if (listen(this->_socket.at(i), getWorkerConnections()))
+		if (listen(this->_socket.at(i), getConnections()))
 			throw(Error::BindException());
 	}
 }
@@ -77,7 +77,7 @@ void	Socket::addSocket(int index)
 	if (getsockname(this->_socket.at(index), reinterpret_cast <struct sockaddr *> (&sockAddr), &len));
 		return ;
 
-	this->_connexion[reinterpret_cast<uintptr_t>(newSocket)] = false;
+	this->_connexions[reinterpret_cast<uintptr_t>(newSocket)] = false;
 	EV_SET(&newClient, newSocket, EVFILT_READ, EV_ADD | EV_ENABLE, 0, 0, 0);
 	if (kevent(this->getKqueue(), &newClient, 1, NULL, 0, NULL) != -1)
 	{
@@ -117,9 +117,9 @@ struct sockaddr_in	Socket::getHint() const
 	return this->_hint;
 }
 
-void	addSocket(int index)
+std::map<uintptr_t, bool>	Socket::getConnections() const
 {
-	(void) index;
+	return this->_Connections;
 }
 
 void	Socket::readSocket(struct kevent &socket)
