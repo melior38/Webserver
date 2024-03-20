@@ -26,14 +26,11 @@ int main(void)
 		cout << "\n///////////////////////      SOCKET     ///////////////////////" << endl;
 		try 
 		{
-			Socket				def;
-			struct sockaddr_in	clientAddress = {};
-			socklen_t			clientAddressLength = sizeof(clientAddress);
-			int					clientSocket = accept(def.getSocket().at(0), reinterpret_cast<struct sockaddr*>(&clientAddress), &clientAddressLength);
-			if (clientSocket < 0)
-				throw(Error::AcceptException());
+			std::vector<int>	port;
+			port.push_back(80);
+			Socket				webserver(port);
+			webserver.run();
 			cout << "Established connection !" << endl;
-			close(clientSocket);
 		}
 		catch (std::exception &err)
 		{

@@ -30,10 +30,10 @@ class Socket
 		std::map<int, std::string>  getSnd() const;
 		Config						*getConfig() const;
 		struct sockaddr_in			getHint() const;
-		
 		///////////////////////////////////////////////////////////////////////////////////////////////
 		
 		///////////////								RUN									///////////////
+		void						run();
 		void						addSocket(int index);
 		void						readSocket(struct kevent &socket);
 		void						writeSocket(struct kevent &socket);
