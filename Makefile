@@ -13,10 +13,10 @@ RM				= rm -rf
 SRC				=	srcs/main.cpp							\
 					srcs/http/Http.cpp						\
 					srcs/conf/conf.cpp						\
-					srcs/socket/Socket.cpp					\
-					# src/Http.cpp						\
-					# src/Http.cpp						\
-					# src/Http.cpp						\
+					srcs/socket/Socket.cpp					
+					# src/Http.cpp						
+					# src/Http.cpp						
+					# src/Http.cpp						
 
 
 DIRS			= objs

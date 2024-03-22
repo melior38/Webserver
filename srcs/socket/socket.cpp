@@ -1,5 +1,8 @@
 #include "Socket.hpp"
 
+using std::cout;
+using std::endl;
+
 Socket::Socket() : _kq(-1), _hint((struct sockaddr_in){}), _config(NULL)
 {
 	this->_socket.push_back(socket(AF_INET, SOCK_STREAM, 0));
@@ -56,16 +59,17 @@ Socket::Socket(/*Config config,*/ std::vector<int> port)
 		this->_hint.sin_port = htons(port.at(i));
 		if (bind(this->_socket.at(i), reinterpret_cast <struct sockaddr *> (&this->_hint),sizeof(this->_hint)) < 0)
 			throw(Error::BindException());
-		if (listen(this->_socket.at(i), getConnections()))
+		if (listen(this->_socket.at(i), getWorkerConnections()))
 			throw(Error::BindException());
 	}
+
 }
 
 void	Socket::addSocket(int index)
 {
 	int	 newSocket;
 	struct kevent	newClient = {};
-		
+
 	newSocket = accept(this->_socket.at(index), NULL, NULL);
 	if (newSocket < 0)
 		return ;
@@ -74,16 +78,16 @@ void	Socket::addSocket(int index)
 
 	struct sockaddr_in	sockAddr = {};
 	socklen_t len = sizeof(sockAddr);
-	if (getsockname(this->_socket.at(index), reinterpret_cast <struct sockaddr *> (&sockAddr), &len));
+	if (getsockname(this->_socket.at(index), reinterpret_cast <struct sockaddr *> (&sockAddr), &len))
 		return ;
 
-	this->_connexions[reinterpret_cast<uintptr_t>(newSocket)] = false;
+	this->_connections[newSocket] = false;
 	EV_SET(&newClient, newSocket, EVFILT_READ, EV_ADD | EV_ENABLE, 0, 0, 0);
 	if (kevent(this->getKqueue(), &newClient, 1, NULL, 0, NULL) != -1)
 	{
 		this->_rcv.insert(std::pair<int, std::string>(newSocket, ""));
 		this->_snd.insert(std::pair<int, std::string>(newSocket, ""));
-		cout << "from mainSocket: " << this->_socket.at(index) << "on port: " << ntohs(sockAddr.sin_port) << ", new socket: " << newSocket << endl;
+		cout << "from mainSocket: " << this->_socket.at(index) << " on port: " << ntohs(sockAddr.sin_port) << ", new socket: " << newSocket << endl;
 	}
 }
 
@@ -117,9 +121,11 @@ struct sockaddr_in	Socket::getHint() const
 	return this->_hint;
 }
 
-std::map<uintptr_t, bool>	Socket::getConnections() const
+int	Socket::getWorkerConnections() const
 {
-	return this->_Connections;
+	// normalement il get les workerconnection du fichier conf 
+	// mais pour l'instant je met une valeur en dure
+	return 1024;
 }
 
 void	Socket::readSocket(struct kevent &socket)
@@ -157,7 +163,7 @@ int	Socket::isSocket(uintptr_t socket) const
 	return -1;
 }
 
-void	Socket::run();
+void	Socket::run()
 {
 	int				indexSocket;
 	int				nbrRequests;
@@ -168,8 +174,8 @@ void	Socket::run();
 	for (size_t j = 0; j < this->_socket.size(); j++)
 	{
 		fcntl(this->_socket[j], F_SETFL, O_NONBLOCK);
-		EV_SET(&newClient, this->_socket[j], EVFILT_READ, EV_ADD | EV_ENABLE, 0, 0, 0);
-		if (kevent(this->getKqueue(), &newClient, 1, NULL, 0, NULL) != -1)
+		EV_SET(&newSocket, this->_socket[j], EVFILT_READ, EV_ADD | EV_ENABLE, 0, 0, 0);
+		if (kevent(this->getKqueue(), &newSocket, 1, NULL, 0, NULL) == -1)
 			exit(1);
 		cout << "adding mainSocket: " << j << " to kevent" << endl;
 	}
@@ -182,7 +188,7 @@ void	Socket::run();
 		{
 			indexSocket = this->isSocket(events[i].ident);
 			if (events[i].flags & EV_ERROR)
-				(void) Utils::removeSocket(this->getKqueue(), events[i], 2, (int[2]) {EVFILT_WRITE, EVFILT_READ}, EV_DELETE, this->_rcv, this->_snd);
+				cout << "socket " << i << " removed because of an error" << endl; // une ft qui remove des socket
 			if (indexSocket >= 0)
 				this->addSocket(indexSocket);
 		}

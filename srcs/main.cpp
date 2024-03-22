@@ -7,27 +7,28 @@ using std::endl;
 
 int main(void)
 {
-	{
-		cout << "///////////////////////       HTTP      ///////////////////////" << endl;
-		std::ifstream myfile("srcs/http/example.http");
-		std::string http;
-		std::string line;
-		if (myfile.is_open())
-			while (getline(myfile,line))
-				http += (line + '\n');
-		else
-			cout << "couldn't open file" << endl;
+	// {
+	// 	cout << "///////////////////////       HTTP      ///////////////////////" << endl;
+	// 	std::ifstream myfile("srcs/http/example.http");
+	// 	std::string http;
+	// 	std::string line;
+	// 	if (myfile.is_open())
+	// 		while (getline(myfile,line))
+	// 			http += (line + '\n');
+	// 	else
+	// 		cout << "couldn't open file" << endl;
 
-		Http request(http);
-		(void) request;
-		cout << "///////////////////////////////////////////////////////////////" << endl;
-	}
+	// 	Http request(http);
+	// 	(void) request;
+	// 	cout << "///////////////////////////////////////////////////////////////" << endl;
+	// }
 	{
 		cout << "\n///////////////////////      SOCKET     ///////////////////////" << endl;
 		try 
 		{
 			std::vector<int>	port;
 			port.push_back(80);
+			cout << "trying connection !" << endl;
 			Socket				webserver(port);
 			webserver.run();
 			cout << "Established connection !" << endl;
@@ -39,12 +40,12 @@ int main(void)
 		}
 		cout << "///////////////////////////////////////////////////////////////" << endl;
 	}
-	{
-		cout << "\n///////////////////////      CONFIG     ///////////////////////" << endl;
-		Config test;
+	// {
+	// 	cout << "\n///////////////////////      CONFIG     ///////////////////////" << endl;
+	// 	Config test;
 
-		test.Check_conf_file();
-		cout << "///////////////////////////////////////////////////////////////" << endl;
-	}
+	// 	test.Check_conf_file();
+	// 	cout << "///////////////////////////////////////////////////////////////" << endl;
+	// }
 	return 0;
 }

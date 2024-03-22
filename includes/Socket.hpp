@@ -30,7 +30,7 @@ class Socket
 		std::map<int, std::string>  getSnd() const;
 		Config						*getConfig() const;
 		struct sockaddr_in			getHint() const;
-		std::map<uintptr_t, bool>	getConnections() const;
+		int							getWorkerConnections() const;
 		///////////////////////////////////////////////////////////////////////////////////////////////
 		
 		///////////////								RUN									///////////////
